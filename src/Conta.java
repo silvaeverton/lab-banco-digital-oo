@@ -1,3 +1,5 @@
+import java.util.ArrayList;
+import java.util.List;
 
 public abstract class Conta implements IConta {
 	
@@ -9,12 +11,20 @@ public abstract class Conta implements IConta {
 	protected double saldo;
 	protected Cliente cliente;
 
+	// Lista para armazenar nomes de clientes 
+	private static List<String> nomesClientes = new ArrayList<>();
+
+
 	public Conta(Cliente cliente) {
 		this.agencia = Conta.AGENCIA_PADRAO;
 		this.numero = SEQUENCIAL++;
 		this.cliente = cliente;
-	}
+	
 
+	 // Adiciona o nome do cliente à lista
+	  nomesClientes.add(cliente.getNome());
+
+	}
 	@Override
 	public void sacar(double valor) {
 		saldo -= valor;
@@ -30,7 +40,13 @@ public abstract class Conta implements IConta {
 		this.sacar(valor);
 		contaDestino.depositar(valor);
 	}
-
+	
+	public static void listarClientes() {
+        System.out.println("++++++++++++Lista de Clientes:++++++++++");
+        for (String nome : nomesClientes) {
+            System.out.println(nome);
+		}
+	}
 	public int getAgencia() {
 		return agencia;
 	}
@@ -42,6 +58,7 @@ public abstract class Conta implements IConta {
 	public double getSaldo() {
 		return saldo;
 	}
+	
 
 	protected void imprimirInfosComuns() {
 		System.out.println(String.format("Titular: %s", this.cliente.getNome()));
